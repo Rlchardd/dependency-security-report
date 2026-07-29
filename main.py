@@ -2,7 +2,11 @@
 from src.application import Workflow
 
 # Importa configurações e logger.
-from src.core import logger, settings
+from src.core import (
+    constants,
+    logger,
+    settings,
+)
 
 # Importa o bot do Snyk.
 from src.infrastructure.bots import SnykBot
@@ -30,8 +34,19 @@ def main() -> None:
     # Registra o início da aplicação.
     logger.info("Preparando a aplicação.")
 
-    # Cria o navegador usando as configurações centrais.
-    driver = settings.create_driver()
+    logger.info(
+        "Ambiente selecionado: %s.",
+        constants.name,
+    )
+    
+    # Cria o navegador conforme o ambiente selecionado.
+    # Homologação:
+    # headless=False → Chrome aparece.
+    # Produção:
+    # headless=True → Chrome não aparece.
+    driver = settings.create_driver(
+        headless=constants.headless
+    )
 
     # Solicita à Factory o leitor apropriado.
     reader = ReaderFactory.create(
@@ -51,13 +66,23 @@ def main() -> None:
         timeout=settings.request_timeout,
     )
 
+    # Mantém a pasta configurada em settings.output_file,
+    # mas substitui o nome conforme o ambiente.
+    # Exemplo:
+    # output/dependency_report.xlsx
+    # Em homologação torna-se:
+    # output/dependency_report_hg.xlsx
+    environment_output_file = (
+        settings.output_file.with_name(
+            constants.output_filename
+        )
+    )
+    
     # Cria o repositório responsável pelo Excel.
     excel_repository = ExcelRepository(
-        output_file=settings.output_file,
-        score_alert_limit=(
-            settings.score_alert_limit
-        ),
-    )
+    output_file=environment_output_file,
+    score_alert_limit=settings.score_alert_limit,
+     )
 
     # Cria o Workflow e conecta todos os componentes.
     workflow = Workflow(

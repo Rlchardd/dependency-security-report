@@ -1,5 +1,4 @@
-# Importa as exceções criadas no módulo
-# application_exceptions.py.
+
 from .application_exceptions import (
     ApplicationError,
     DependencyFileError,
@@ -11,9 +10,6 @@ from .application_exceptions import (
     SpreadsheetError,
 )
 
-
-# Define quais exceções poderão ser importadas
-# diretamente pelo pacote src.share.exceptions.
 __all__ = [
     "ApplicationError",
     "DependencyFileError",

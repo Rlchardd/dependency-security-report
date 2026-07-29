@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 
 
 class DependencyModel(BaseModel):
-    
+
     name: str = Field(
         ...,
         description="Nome da dependência Python.",

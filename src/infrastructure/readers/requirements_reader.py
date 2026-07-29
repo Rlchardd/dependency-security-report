@@ -18,45 +18,45 @@ from src.share.exceptions import DependencyParseError
 
 class RequirementsReader(DependencyReader):
 
-    
+
     def read(self) -> list[DependencyModel]:
 
-        
+
         dependencies: list[DependencyModel] = []
 
-        
+
         for line_number, raw_line in enumerate(
             self._read_lines(),
             start=1,
         ):
 
-            
+
             line = self._clean_line(
                 raw_line=raw_line,
                 line_number=line_number,
             )
 
-           
+
             if line is None:
                 continue
 
-           
+
             try:
 
-            
+
                 requirement = Requirement(line)
 
-            
+
             except InvalidRequirement as error:
                 raise DependencyParseError(
                     f"Dependência inválida na linha "
                     f"{line_number}: {raw_line!r}"
                 ) from error
 
-            
+
             version = self._extract_version(requirement)
 
-            
+
             dependency = DependencyModel(
                 name=requirement.name,
                 version=version,
@@ -64,14 +64,14 @@ class RequirementsReader(DependencyReader):
 
             dependencies.append(dependency)
 
-       
+
         if not dependencies:
             raise DependencyParseError(
                 f"Nenhuma dependência válida foi encontrada em: "
                 f"{self.file_path}"
             )
 
-        
+
         return dependencies
 
     @staticmethod
@@ -80,23 +80,23 @@ class RequirementsReader(DependencyReader):
         line_number: int,
     ) -> str | None:
 
-        
+
         line = raw_line.strip()
 
-        
+
         if not line:
 
-            
+
             return None
 
-        
+
         if line.startswith("#"):
             return None
 
-       
+
         if " #" in line:
 
-            
+
             line = line.split(" #", maxsplit=1)[0].strip()
 
 

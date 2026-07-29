@@ -1,0 +1,12 @@
+[project]
+name = "projeto-teste"
+version = "0.1.0"
+description = "Projeto utilizado para testar a leitura de dependências."
+requires-python = ">=3.12"
+
+dependencies = [
+    "requests==2.32.3",
+    "selenium>=4.20.0",
+    "openpyxl",
+    "pydantic~=2.0",
+]

@@ -1,7 +1,7 @@
 [project]
 name = "desafio-1"
 version = "0.1.0"
-description = "Add your description here"
+description = "Aplicação para analisar dependências Python com Snyk e PyPI e gerar um relatório de segurança em Excel"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

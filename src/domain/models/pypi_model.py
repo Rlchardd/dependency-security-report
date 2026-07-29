@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 
 
 class PyPiModel(BaseModel):
-    
+
     name: str = Field(
         ...,
         description="Nome oficial do pacote no PyPI.",
@@ -23,13 +23,13 @@ class PyPiModel(BaseModel):
         description="Licença informada pelo pacote.",
     )
 
-    
+
     latest_version: str | None = Field(
         default=None,
         description="Última versão disponível no PyPI.",
     )
 
-    
+
     last_publication: datetime | None = Field(
         default=None,
         description="Data da publicação mais recente.",

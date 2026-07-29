@@ -2,7 +2,7 @@
 from pydantic import BaseModel, Field
 
 class SnykModel(BaseModel):
-    
+
     score: int | None = Field(
         default=None,
         ge=0,
